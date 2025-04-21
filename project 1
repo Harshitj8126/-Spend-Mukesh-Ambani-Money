@@ -1,6 +1,96 @@
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/Harshitj8126/ambani-money-app.git
-git branch -M main
-git push -u origin main
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+
+const items = [
+  { name: "Antilia", price: 15000000000, emoji: "🏰" },
+  { name: "Private Jet", price: 500000000, emoji: "✈️" },
+  { name: "Rolls Royce Phantom", price: 95000000, emoji: "🚗" },
+  { name: "Mumbai Indians IPL Team", price: 800000000, emoji: "🏏" },
+  { name: "Luxury Wedding", price: 100000000, emoji: "💒" },
+  { name: "Oil Refinery", price: 30000000000, emoji: "🏭" },
+  { name: "Samosa Factory", price: 500000, emoji: "🥟" },
+  { name: "Designer Kurta", price: 10000, emoji: "👕" },
+  { name: "iPhone 15 Pro Max", price: 150000, emoji: "📱" },
+  { name: "Super Yacht", price: 1000000000, emoji: "🛥️" },
+  { name: "5-Star Meal", price: 25000, emoji: "🍽️" },
+  { name: "Luxury Watch", price: 5000000, emoji: "⌚" },
+  { name: "Gold-plated iPad", price: 1200000, emoji: "💻" },
+  { name: "Imported Cheese Platter", price: 15000, emoji: "🧀" },
+  { name: "Chateau Wine Bottle", price: 75000, emoji: "🍷" },
+  { name: "Luxury Cruise Trip", price: 20000000, emoji: "🚢" },
+  { name: "Helicopter", price: 600000000, emoji: "🚁" },
+  { name: "Cargo Ship", price: 3500000000, emoji: "🚢" },
+  { name: "Private Flight Charter", price: 120000000, emoji: "🛫" },
+  { name: "Mega Yacht", price: 4500000000, emoji: "🛳️" },
+  { name: "Electric Scooty", price: 95000, emoji: "🛵" },
+  { name: "Budget Car", price: 400000, emoji: "🚙" },
+  { name: "Mountain Bicycle", price: 15000, emoji: "🚴‍♂️" },
+  { name: "Face Cream (Luxury Brand)", price: 3000, emoji: "🧴" },
+  { name: "Designer Lipstick", price: 2500, emoji: "💄" },
+  { name: "Indian Wine Bottle", price: 1200, emoji: "🍾" },
+  { name: "Vape Kit", price: 4500, emoji: "💨" },
+  { name: "Royal Enfield Bullet", price: 200000, emoji: "🏍️" },
+  { name: "Local Train Pass (1 Year)", price: 12000, emoji: "🚆" },
+  { name: "Pani Puri Stall", price: 25000, emoji: "🍧" },
+  { name: "Luxury Chai Bar Setup", price: 150000, emoji: "🍵" },
+  { name: "Movie Theatre Screen", price: 5000000, emoji: "🎥" },
+  { name: "College Hostel Room", price: 100000, emoji: "🏫" },
+  { name: "MacBook Pro", price: 250000, emoji: "💻" },
+  { name: "iPad Pro", price: 100000, emoji: "📱" },
+  { name: "Apple Watch Ultra", price: 89900, emoji: "⌚" },
+  { name: "AirPods Pro", price: 24900, emoji: "🎧" },
+  { name: "Apple Vision Pro", price: 300000, emoji: "🕶️" },
+  { name: "Apple TV 4K", price: 15900, emoji: "📺" },
+  { name: "HomePod", price: 32900, emoji: "🔊" }
+];
+
+export default function SpendAmbaniMoney() {
+  const initialNetWorth = 1000000000000;
+  const [netWorth, setNetWorth] = useState(initialNetWorth);
+  const [purchases, setPurchases] = useState({});
+
+  const buyItem = (item) => {
+    if (netWorth >= item.price) {
+      setNetWorth(netWorth - item.price);
+      setPurchases({
+        ...purchases,
+        [item.name]: (purchases[item.name] || 0) + 1,
+      });
+    }
+  };
+
+  return (
+    <div className="p-4 max-w-5xl mx-auto bg-white min-h-screen text-gray-900 transition-colors">
+      <h1 className="text-4xl font-bold text-center mb-6">
+        Spend Mukesh Ambani's Money 💸
+      </h1>
+      <h2 className="text-2xl text-center mb-6">
+        Net Worth: ₹{netWorth.toLocaleString()}
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {items.map((item) => (
+          <motion.div
+            key={item.name}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Card>
+              <CardContent className="flex flex-col items-center justify-center p-4">
+                <div className="text-5xl mb-2">{item.emoji}</div>
+                <h3 className="text-xl font-semibold mb-1">{item.name}</h3>
+                <p className="mb-2">Price: ₹{item.price.toLocaleString()}</p>
+                <Button onClick={() => buyItem(item)}>Buy</Button>
+                {purchases[item.name] && (
+                  <p className="mt-2">Bought: {purchases[item.name]}</p>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
